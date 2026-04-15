@@ -1,15 +1,11 @@
 package prtalentshowamp.menu;
 
 import java.io.IOException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 
 import utilidades.UtilidadesES;
 
 public class Menu {
-    private static final Logger log = LogManager.getLogger(Menu.class);
-
     public static final String SALIR = "S";
     OpcionesMenu opcionesMenu;
     UtilidadesES utilidadesES;
@@ -37,12 +33,8 @@ public class Menu {
      */
     public String leeOpcMenu(String texto) throws IOException {
         String opc;
-        try {
-            opc = utilidadesES.pideCadena(texto);
-        } catch (IOException e) {
-            log.fatal("Error de lectura: ", e);
-            throw e;
-        }
+        opc = utilidadesES.pideCadena(texto);
         return opc;
+
     }
 }
