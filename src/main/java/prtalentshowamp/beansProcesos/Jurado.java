@@ -16,10 +16,15 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import utilidades.UtilidadesES;
 
+import static utilidades.UtilidadesES.log;
+
 public class Jurado {
+    private static final Logger log = LogManager.getLogManager().getLogger("alertas.txt");
     private UtilidadesES utilidadesES;
     private ListaPuntuacion listaPuntuacion;
     
@@ -39,7 +44,7 @@ public class Jurado {
             }
         
         if (puntuacion < 0) {
-            throw new NumberFormatException("Has introducido un numero negativo");
+            Jurado.log.("Has introducido un numero negativo");
         } else {
             if (puntuacion > 10) {
                 throw new NumberFormatException("Has introducido un numero mayor a 10");

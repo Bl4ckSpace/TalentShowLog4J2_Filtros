@@ -1,5 +1,8 @@
 package utilidades;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -13,6 +16,7 @@ import java.io.PrintStream;
  * @version 1.0
  */
 public class UtilidadesES {
+    private static final Logger log = LogManager.getLogger(UtilidadesES.class);
     /**
      * Flujo de entrada
      */
@@ -67,7 +71,7 @@ public class UtilidadesES {
         try {
             respuesta = flujoEntrada.readLine();
         } catch (IOException ioe) {
-            throw new IOException("Error al leer de teclado en pideCadena()", ioe);
+            UtilidadesES.log.error("Error al leer de teclado en pideCadena()", ioe);
         }
         return respuesta;
     }
