@@ -1,30 +1,25 @@
 package prtalentshowamp.beansProcesos;
 
-import prtalentshowamp.beansDatos.Artista;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import prtalentshowamp.beansDatos.Artista;
 import prtalentshowamp.beansDatos.ListaPuntuacion;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 import utilidades.UtilidadesES;
 
-import static utilidades.UtilidadesES.log;
-
 public class Jurado {
-    private static final Logger log = LogManager.getLogManager().getLogger("alertas.txt");
+    private static final Logger log = LogManager.getLogger(Jurado.class);
     private UtilidadesES utilidadesES;
     private ListaPuntuacion listaPuntuacion;
     
@@ -38,19 +33,23 @@ public class Jurado {
             puntuacion = Integer.parseInt(utilidadesES.pideCadena("Indica la puntuacion del artista: "));
             listaPuntuacion.addArtista(artista, puntuacion);
         } catch (NumberFormatException nfe) {
-            throw new NumberFormatException("No has introducido un numero en la puntuacion del artista");
+            log.warn("No has introducido un numero en la puntuacion del artista", nfe);
+            throw nfe;
             } catch (IOException ioe) {
-                throw new IOException("Hay un error de entrada y salida");
+                log.error("Hay un error de entrada y salida", ioe);
+                throw ioe;
             }
         
         if (puntuacion < 0) {
-            Jurado.log.("Has introducido un numero negativo");
+            log.warn("Has introducido un numero negativo");
+            throw new NumberFormatException("Has introducido un numero negativo");
         } else {
             if (puntuacion > 10) {
+                log.warn("Has introducido un numero mayor a 10");
                 throw new NumberFormatException("Has introducido un numero mayor a 10");
             }
         }
-        
+
         return puntuacion;
     }
     

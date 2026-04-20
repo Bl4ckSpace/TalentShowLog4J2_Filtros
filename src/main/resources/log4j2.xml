@@ -5,16 +5,9 @@
     </Properties>
 
     <Appenders>
-        <RollingFile name="file-info" fileName="${log-path}/info.log" filePattern="${log-path}/info-%d{yyyy-MM-dd}.log">
+        <RollingFile name="file-log" fileName="${log-path}/EjLog4j2.log" filePattern="${log-path}/EjLog4j-%d{yyyy-MM-dd}.log">
             <PatternLayout pattern="[%5p] - %c{1}:%L %d{yyyy-MM-dd HH:mm:ss} - %m%n"/>
-            <LevelMatchFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy interval="1"	modulate="true" />
-            </Policies>
-        </RollingFile>
-        <RollingFile name="file-warn-error" fileName="${log-path}/warn-error.log" filePattern="${log-path}/warn-error-%d{yyyy-MM-dd}.log">
-            <PatternLayout pattern="[%5p] - %c{1}:%L %d{yyyy-MM-dd HH:mm:ss} - %m%n"/>
-            <LevelRangeFilter minLevel="error" maxLevel="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1"	modulate="true" />
             </Policies>
@@ -25,10 +18,9 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="info">
-            <AppenderRef ref="console"/>
-            <AppenderRef ref="file-info"/>
-            <AppenderRef ref="file-warn-error"/>
+        <Root level="trace">
+            <appender-ref ref="file-log" />
+            <appender-ref ref="console" level="warn"/>
         </Root>
     </Loggers>
 </Configuration>

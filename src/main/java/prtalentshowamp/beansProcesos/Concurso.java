@@ -42,15 +42,17 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 
 import java.util.TreeSet;
+import org.apache.logging.log4j.LogManager;;
+import org.apache.logging.log4j.Logger;
 import java.util.stream.Collectors;
 
 import prtalentshowamp.menu.Menu;
-
 import prtalentshowamp.menu.OpcionesMenu;
 
 import utilidades.UtilidadesES;
 
 public class Concurso {
+    private static final Logger log = LogManager.getLogger(Concurso.class);
 
     private UtilidadesES utilidadesES;
     private ListaArtistas listaArtistas;
@@ -89,12 +91,12 @@ public class Concurso {
             concurso();
         } catch (IOException ioe) {
             if (ioe.getMessage().equals("")) {
-                utilidadesES.mostrarln("Error de toma de datos. Vuelva a intentarlo mas tarde.");
+                log.fatal("Error de toma de datos. Vuelva a intentarlo mas tarde.");
             } else {
                 utilidadesES.mostrarln(ioe.getMessage());
             }
         } finally {
-            utilidadesES.mostrarln("Fin del programa");
+            System.out.println("Fin del programa");
         }
     }
     private void concurso() throws IOException {
@@ -108,11 +110,11 @@ public class Concurso {
                 error = false;
                 utilidadesES.mostrarln("Fin del proceso asociado a la opción " + opcion);
             } catch (OpcionMenuIncorrecta omi) {
-                utilidadesES.mostrarln(omi.getMessage());
+                log.warn(omi.getMessage());
             } catch(FileNotFoundException fnfe) {
-                utilidadesES.mostrarln(fnfe.getMessage());
+                log.warn(fnfe.getMessage());
             } catch (ClassNotFoundException cnfe) {
-                utilidadesES.mostrarln(cnfe.getMessage());
+                log.warn(cnfe.getMessage());
             }
         } while (!opcion.equals(Menu.SALIR) || error);
     }
@@ -162,11 +164,11 @@ public class Concurso {
                     error = false;
                     utilidadesES.mostrarln("Fin del proceso asociado a la opción " + opcion);
                 } catch (OpcionMenuIncorrecta omi) {
-                    utilidadesES.mostrarln(omi.getMessage());
+                    log.warn(omi.getMessage());
                 }
             } while (!opcion.equals(Menu.SALIR) | error);
         } catch (IOException ioe) {
-                utilidadesES.mostrarln(ioe.getMessage());
+                log.error(ioe.getMessage());
             }
         }
     }
@@ -200,9 +202,9 @@ public class Concurso {
                 error = false;
             } catch (IOException ioe) {
                 if (ioe.getMessage().equals("")) {
-                    utilidadesES.mostrarln("Error de toma de datos. Vuelva a intentarlo mas tarde.");
+                    log.warn("Error de toma de datos. Vuelva a intentarlo mas tarde.");
                 } else {
-                    utilidadesES.mostrarln(ioe.getMessage());
+                    log.error(ioe.getMessage());
                 }
             }
         } while (error);
@@ -217,12 +219,12 @@ public class Concurso {
                 nombre = Integer.parseInt(utilidadesES.pideCadena("Indica la edad del "+tipoArtista+": "));
                 error = false;
             }catch (NumberFormatException nfe) {
-                    utilidadesES.mostrarln("No has introducido un numero en la edad, vuelva a intentarlo");
+                    log.warn("No has introducido un numero en la edad, vuelva a intentarlo");
                 } catch (IOException ioe) {
                     if (ioe.getMessage().equals("")) {
-                        utilidadesES.mostrarln("Error de toma de datos. Vuelva a intentarlo mas tarde.");
+                        log.warn("Error de toma de datos. Vuelva a intentarlo mas tarde.");
                     } else {
-                        utilidadesES.mostrarln(ioe.getMessage());
+                        log.error(ioe.getMessage());
                     }
                 } 
         } while (error);
@@ -246,7 +248,7 @@ public class Concurso {
             utilidadesES.mostrarln("Los artistas ya han actuado anteriormente");
         } else {
             if (this.listaArtistas.getListaArtistas().isEmpty()) {
-                utilidadesES.mostrarln("No se ha inscrito ningun artista a este concurso actualmente, prueba añadir artistas con la opcion 1.");
+                log.warn("No se ha inscrito ningun artista a este concurso actualmente, prueba añadir artistas con la opcion 1.");
             } else {
                 int puntuacion;
                 for (Artista artista : listaArtistas.getListaArtistas()) {
@@ -284,12 +286,12 @@ public class Concurso {
                 }
             }
             if (fArchivo.exists()) {
-                utilidadesES.mostrarln("El archivo ya estaba creado anteriormente.");
+                log.warn("El archivo ya estaba creado anteriormente.");
             } else {
                 if (grabaListaTresMejoresArtistas(fArchivo, listaTresMejores)) {
                     utilidadesES.mostrarln("Se ha guardado correctamente los tres mejores artistas");
                 } else {
-                    utilidadesES.mostrarln("No se ha podido guardar");
+                    log.warn("No se ha podido guardar");
                 }
             }
         }
@@ -313,10 +315,12 @@ public class Concurso {
         }
         // Este catch debe ir antes que el de IOException.
         catch (FileNotFoundException fnfe) {
-                throw new FileNotFoundException("No se encuentra archivo en metodo grabaListaTresMejoresArtistas()");
+                log.fatal("No se encuentra archivo en metodo grabaListaTresMejoresArtistas()", fnfe);
+                throw fnfe;
         }
         catch (IOException ioe) { // Este salta a la hora de guardar la lista de los tres mejores artistas segun puntuacion
-                throw new IOException("Error al escribir el objeto en metodo grabaListaTresMejoresArtistas()",ioe);
+                log.fatal("Error al escribir el objeto en metodo grabaListaTresMejoresArtistas()", ioe);
+                throw ioe;
         }
         finally {
                 if (oos != null)
@@ -355,12 +359,16 @@ public class Concurso {
         }
         // Este catch debe ir antes que el de IOException.
         catch (FileNotFoundException fnfe) {
-                throw new FileNotFoundException("No se encuentra archivo en metodo leeListaUsuarios()");
+                log.fatal("No se encuentra archivo en metodo leeListaUsuarios()", fnfe);
+                throw fnfe;
         }
         catch (IOException ioe) {
-                throw new IOException("Error al leer el objeto en m�todo leeListaUsuarios()",ioe);
+                log.fatal("Error al leer el objeto en m�todo leeListaUsuarios()", ioe);
+                throw ioe;
+
         } catch (ClassNotFoundException cnfe) {
-                throw new ClassNotFoundException("Error al leer el objeto en metodo leeListaUsuarios()",cnfe);
+                log.fatal("Error al leer el objeto en metodo leeListaUsuarios()", cnfe);
+                throw cnfe;
         }
         finally {
                 if (ois != null)
@@ -385,9 +393,9 @@ public class Concurso {
                 puntuacion = jurado.puntuar(artista);
                 error = false;
             } catch (NumberFormatException nfe) {
-                utilidadesES.mostrarln(nfe.getMessage());
+                log.warn(nfe.getMessage());
             } catch (IOException ioe) {
-                utilidadesES.mostrarln(ioe.getMessage());
+                log.fatal(ioe.getMessage());
             }
         } while (error);
         return puntuacion;
