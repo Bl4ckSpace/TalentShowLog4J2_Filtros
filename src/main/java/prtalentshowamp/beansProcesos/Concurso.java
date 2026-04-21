@@ -42,7 +42,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 
 import java.util.TreeSet;
-import org.apache.logging.log4j.LogManager;;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.stream.Collectors;
 
