@@ -177,12 +177,15 @@ public class Concurso {
         switch (opcion) {
         case "1":
             listaArtistas.addArtista(new Poeta(pideNombreArtista("poeta"), pideEdadArtista("poeta")));
+            log.info("Poeta añadido correctamente.");
             break;
         case "2":
             listaArtistas.addArtista(new Cantante(pideNombreArtista("cantante"), pideEdadArtista("cantante")));
+            log.info("Cantante añadido correctamente.");
             break;
         case "3":
             listaArtistas.addArtista(new Malabarista(pideNombreArtista("malabarista"), pideEdadArtista("malabarista")));
+            log.info("Malabarista añadido correctamente.");
             break;
         case "S":
             ejecutarOpcSalir();
@@ -259,6 +262,7 @@ public class Concurso {
                     utilidadesES.mostrarln("El jurado ha puntuado la actuacion con " + puntuacion+"\n");
                 }
                 this.actuacion = true;
+                log.info("Todos los artistas ya han actuado.");
             }
         }
     }
@@ -289,7 +293,7 @@ public class Concurso {
                 log.warn("El archivo ya estaba creado anteriormente.");
             } else {
                 if (grabaListaTresMejoresArtistas(fArchivo, listaTresMejores)) {
-                    utilidadesES.mostrarln("Se ha guardado correctamente los tres mejores artistas");
+                    log.info("Se ha guardado correctamente los tres mejores artistas");
                 } else {
                     log.warn("No se ha podido guardar");
                 }
@@ -333,7 +337,7 @@ public class Concurso {
         if (!this.actuacion) {
             utilidadesES.mostrarln("No se ha realizado el concurso, eliga la opcion 3 para comenzar el concurso");
         } else {
-            utilidadesES.mostrarln("Lista 3 mejores recuperada:");
+            log.info("Lista 3 mejores recuperada:");
             Map<Artista, Integer> unsortedMap = leeLista3Mejores(fArchivo);
             List<Map.Entry<Artista,Integer>> sortedMap = new LinkedList<Map.Entry<Artista, Integer>>(unsortedMap.entrySet());
             
@@ -378,7 +382,7 @@ public class Concurso {
     }
 
     private void ejecutarOpcSalir() {
-        utilidadesES.mostrarln("Saliste de la aplicacion");
+        log.info("Saliste de la aplicacion");
     }
 
     private void ejecutarNada() throws OpcionMenuIncorrecta {
