@@ -7,7 +7,9 @@
     <Appenders>
         <RollingFile name="file-log" fileName="${log-path}/EjLog4j2.log" filePattern="${log-path}/EjLog4j-%d{yyyy-MM-dd}.log">
             <PatternLayout pattern="[%5p] - %c{1}:%L %d{yyyy-MM-dd HH:mm:ss} - %m%n"/>
-            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!--<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/> => del primer ejercicio.-->
+            <LevelRangeFilter minLevel="WARN" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <LevelMatchFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1"	modulate="true" />
             </Policies>
