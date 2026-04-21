@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="log-path">logs</Property>
+    </Properties>
+
+    <Appenders>
+        <RollingFile name="file-log" fileName="${log-path}/EjLog4j2.log" filePattern="${log-path}/EjLog4j-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%5p] - %c{1}:%L %d{yyyy-MM-dd HH:mm:ss} - %m%n"/>
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"	modulate="true" />
+            </Policies>
+        </RollingFile>
+
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%5p] - %c{1}:%L %d{yyyy-MM-dd HH:mm:ss} - %m%n" />
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="trace">
+            <appender-ref ref="file-log" />
+            <appender-ref ref="console" level="warn"/>
+        </Root>
+    </Loggers>
+</Configuration>
