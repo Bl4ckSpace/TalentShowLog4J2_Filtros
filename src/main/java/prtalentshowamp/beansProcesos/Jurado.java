@@ -32,6 +32,7 @@ public class Jurado {
         try {
             puntuacion = Integer.parseInt(utilidadesES.pideCadena("Indica la puntuacion del artista: "));
             listaPuntuacion.addArtista(artista, puntuacion);
+            log.info("Se ha añadido la puntuación {} para {}", puntuacion, artista.getNombre());
         } catch (NumberFormatException nfe) {
             log.warn("No has introducido un numero en la puntuacion del artista", nfe);
             throw nfe;
