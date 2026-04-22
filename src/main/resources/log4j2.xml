@@ -12,7 +12,7 @@
                 <TimeBasedTriggeringPolicy interval="1"	modulate="true" />
             </Policies>
         </RollingFile>
-        <RollingFile name="file-info" fileName="${log-path}/file-info.log" filePattern="${log-path}/file-info-%d{yyyy-MM-dd}.log">
+        <RollingFile name="file-info" fileName="${log-path}/info.log" filePattern="${log-path}/info-%d{yyyy-MM-dd}.log">
             <PatternLayout pattern="[%5p] - %c{1}:%L %d{yyyy-MM-dd HH:mm:ss} - %m%n"/>
             <LevelMatchFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
             <Policies>
